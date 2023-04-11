@@ -48,13 +48,15 @@ void	ft_here_doc(char **av, t_pipex *ppx)
 {
 	char	*bufer;
 	int		fd;
+	char	*arg;
 
 	fd = open("/tmp/temp_heredoc", O_CREAT | O_WRONLY | O_TRUNC, 0777);
+	arg = ft_strjoin(av[2],"\n");
 	while (1)
 	{
 		write(1, "heredoc>", 9);
 		bufer = get_next_line(STDIN_FILENO);
-		if (ft_strnstr(bufer, av[2], ft_strlen(bufer)))
+		if (ft_strnstr(bufer, arg, ft_strlen(bufer)))
 			break ;
 		write(fd, bufer, ft_strlen(bufer));
 		free(bufer);

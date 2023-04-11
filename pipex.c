@@ -62,6 +62,8 @@ void	ft_excmd(t_pipex ppx, char **env,char **cmd,int i)
 		ft_exit_nf(4);
 	ppx.path_str = ft_find_path(env);
 	ppx.cmd_path = ft_check_path(ppx.path_str, cmd[0]);
+	if(ppx.cmd_path)
+		ft_free_ppx(&ppx);
 	if (execve(ppx.cmd_path, cmd, env) < 0)
 	{
 		write(2, "Invalid input cmd \n", 20);

@@ -27,22 +27,19 @@ void	ft_duplicate(int out, int in)
 	dup2(in, STDIN_FILENO);
 }
 
-char	*ft_check_path(t_pipex *ppx, int i, char *cmd0)
+char	*ft_check_path(t_pipex *ppx, char *cmd0)
 {
 	char		*path;
 
-	if (i == 1)
+	while (*ppx->path_str)
 	{
-		while (*ppx->path_str)
-		{
-			ppx->cmd_path = ft_strjoin(*ppx->path_str, "/");
-			path = ft_strjoin(ppx->cmd_path, cmd0);
-			if (access(path, X_OK | F_OK) == 0)
-				return (path);
-			free(ppx->cmd_path);
-			free(path);
-			ppx->path_str++;
-		}
+		ppx->cmd_path = ft_strjoin(*ppx->path_str, "/");
+		path = ft_strjoin(ppx->cmd_path, cmd0);
+		if (access(path, X_OK | F_OK) == 0)
+			return (path);
+		free(ppx->cmd_path);
+		free(path);
+		ppx->path_str++;
 	}
 	return (cmd0);
 }
@@ -51,9 +48,7 @@ char	*ft_find_path(char **env, char *cmd0)
 {
 	char		*new_path;
 	t_pipex		ppx;
-	int			i;
 
-	i = 0;
 	while (*env)
 	{
 		if (ft_strnstr(*env, "PATH=", 5))
@@ -61,7 +56,6 @@ char	*ft_find_path(char **env, char *cmd0)
 			new_path = *env;
 			new_path += 5;
 			ppx.path_str = ft_split(new_path, ':');
-			i = 1;
 			break ;
 		}
 		env++;

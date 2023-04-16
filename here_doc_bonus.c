@@ -56,6 +56,8 @@ void	ft_here_doc(char **av, t_pipex *ppx)
 	{
 		write(1, "heredoc>", 9);
 		bufer = get_next_line(STDIN_FILENO);
+		if(!bufer)
+			exit(0);
 		if (ft_strnstr(bufer, arg, ft_strlen(bufer)))
 			break ;
 		write(fd, bufer, ft_strlen(bufer));
